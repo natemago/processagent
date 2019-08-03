@@ -137,13 +137,11 @@ func (w *processWrapper) stopProcess() error {
 		return nil
 	}
 	if err := w.cmd.Process.Signal(syscall.SIGTERM); err != nil {
-		return nil
-	}
-
-	_, err := w.cmd.Process.Wait()
-	if err != nil {
 		return err
 	}
+
+	w.cmd.Process.Wait()
+
 	return nil
 }
 
