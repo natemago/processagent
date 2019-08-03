@@ -8,6 +8,7 @@ import (
 	"log"
 	"os/exec"
 	"strings"
+	"sync"
 	"syscall"
 )
 
@@ -169,6 +170,7 @@ type LocalProcessAgent struct {
 	execCommand string
 	maxParallel int
 	running     map[int]*processWrapper
+	lock        sync.Mutex
 }
 
 // GetMiddleware returns a middleware that can be attached to a given InputPort
@@ -198,10 +200,15 @@ func (p *LocalProcessAgent) ProcessCommand(req *Request, resp *Response) error {
 	}
 
 	pw := newProcessWrapper(func(pw *processWrapper) {
+		p.lock.Lock()
 		p.running[pw.cmd.Process.Pid] = pw
+		p.lock.Unlock()
+
 	}, func(pw *processWrapper) {
 		if pw.cmd.Process != nil {
+			p.lock.Lock()
 			delete(p.running, pw.cmd.Process.Pid)
+			p.lock.Unlock()
 		}
 	})
 
