@@ -19,6 +19,28 @@ $ curl http://localhost:8080
 
 # Install
 
+On Linux:
+
+```bash
+curl -o processagent https://github.com/natemago/processagent/releases/download/v1.0.0/processagent_linux_amd64 && chmod +x processagent
+```
+
+On Mac:
+```bash
+curl -o processagent https://github.com/natemago/processagent/releases/download/v1.0.0/processagent_darwin_amd64 && chmod +x processagent
+```
+
+On Linux on ARM:
+
+```bash
+curl -o processagent https://github.com/natemago/processagent/releases/download/v1.0.0/processagent_linux_arm && chmod +x processagent
+```
+
+On Linux on 64-bit ARM:
+```bash
+curl -o processagent https://github.com/natemago/processagent/releases/download/v1.0.0/processagent_linux_arm64 && chmod +x processagent
+```
+
 ## Install from source
 
 You can use Go to install it from source:
