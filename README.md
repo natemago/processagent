@@ -1,6 +1,10 @@
 Process Agent
 =============
 
+[![Test Coverage](https://api.codeclimate.com/v1/badges/464aa5413c4f09a95a4c/test_coverage)](https://codeclimate.com/github/natemago/processagent/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/464aa5413c4f09a95a4c/maintainability)](https://codeclimate.com/github/natemago/processagent/maintainability)
+[![GoDoc Reference](https://godoc.org/github.com/natemago/processagent?status.svg)](https://godoc.org/github.com/natemago/processagent)
+
 Make everything a micro-service.
 
 Process agent is a tool that can wrap an existing CLI app and expose it as micro-service.
