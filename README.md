@@ -1,6 +1,7 @@
 Process Agent
 =============
 
+[![Build Status](https://travis-ci.org/natemago/processagent.svg?branch=master)](https://travis-ci.org/natemago/processagent)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/464aa5413c4f09a95a4c/test_coverage)](https://codeclimate.com/github/natemago/processagent/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/464aa5413c4f09a95a4c/maintainability)](https://codeclimate.com/github/natemago/processagent/maintainability)
 [![GoDoc Reference](https://godoc.org/github.com/natemago/processagent?status.svg)](https://godoc.org/github.com/natemago/processagent)
