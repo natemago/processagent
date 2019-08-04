@@ -3,6 +3,7 @@ package processagent
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"log"
 	"testing"
@@ -86,5 +87,49 @@ func TestJSONResponse(t *testing.T) {
 	}
 	if result.Timestamp != resp.Timestamp {
 		t.Fatal("Response was not serialized properly. Timestamp mismatch.")
+	}
+}
+
+func TestJSONResponseMiddlewareFails(t *testing.T) {
+	expectedErr := errors.New("some Error")
+	middleware := func(ctx context.Context, req *Request, resp *Response) error {
+		return expectedErr
+	}
+	middleware = JSONResponse(middleware)
+
+	resp := &Response{
+		Payload: "implementation should not change this",
+	}
+	result := middleware(context.Background(), &Request{}, resp)
+
+	if resp.Payload != "implementation should not change this" {
+		t.Fatalf("Want the Payload of the response not to be changed, but got '%v'", resp.Payload)
+	}
+
+	if result != expectedErr {
+		t.Fatalf("Should return err: %v", expectedErr)
+	}
+}
+
+func TestJSONResponseMarshalFails(t *testing.T) {
+	expectedErr := errors.New("some Error")
+	middleware := func(ctx context.Context, req *Request, resp *Response) error {
+		return nil
+	}
+	marshalResponse = func(r *Response) ([]byte, error) {
+		return nil, expectedErr
+	}
+
+	middleware = JSONResponse(middleware)
+
+	resp := &Response{}
+	result := middleware(context.Background(), &Request{}, resp)
+
+	if resp.Payload != "" {
+		t.Fatalf("Expected the Payload of the response not to be set, but got %v", resp.Payload)
+	}
+
+	if result != expectedErr {
+		t.Fatalf("Should return err: %v", expectedErr)
 	}
 }

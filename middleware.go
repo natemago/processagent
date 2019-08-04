@@ -120,11 +120,15 @@ func JSONResponse(middleware Middleware) Middleware {
 		if err != nil {
 			return err
 		}
-		data, err := json.Marshal(resp)
+		data, err := marshalResponse(resp)
 		if err != nil {
 			return err
 		}
 		resp.Payload = string(data)
 		return nil
 	}
+}
+
+var marshalResponse = func(r *Response ) ([]byte, error){
+	return json.Marshal(r)
 }
