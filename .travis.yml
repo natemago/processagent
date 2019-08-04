@@ -12,4 +12,4 @@ before_script:
 
 script:
   - gocov test ./... | gocov-xml > coverage.xml && ./cc-test-reporter format-coverage -t cobertura -o coverage.json coverage.xml
-  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./cc-test-reporter upload-coverage -i coverage.json fi
+  - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then ./cc-test-reporter upload-coverage -i coverage.json; fi
