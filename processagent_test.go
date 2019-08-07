@@ -46,6 +46,20 @@ func TestTokenize(t *testing.T) {
 	fmt.Println(strings.Join(tokens, "|"))
 }
 
+func TestTokenizerErrors(t *testing.T) {
+	tokens, err := Tokenize(`"foobar`)
+	if len(tokens) != 0 {
+		t.Fatal("Expected no tokens on open quote")
+	}
+	if err == nil {
+		t.Fatal("Expected tokenization error on unmatched quote")
+	}
+	tokens, err = Tokenize(`foo'bar`)
+	if err == nil {
+		t.Fatal("Expected tokenization error on unmatched quote")
+	}
+}
+
 func TestNewProcessWrapper(t *testing.T) {
 	processStartExecuted := false
 	processEndExecuted := false
