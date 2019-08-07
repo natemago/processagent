@@ -59,7 +59,7 @@ go install github.com/natemago/processagent
 
 ## Simple service that reads from stdin and writes to stdout
 
-A simple service that reads JSON from stdin, does dome processing and writes to
+A simple service that reads JSON from stdin, does some processing and writes to
 stdout:
 
 File `service.go`:
