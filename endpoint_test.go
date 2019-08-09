@@ -3,6 +3,7 @@ package processagent
 import (
 	"context"
 	"testing"
+	"fmt"
 )
 
 func TestInputPortAddMiddleware(t *testing.T) {
