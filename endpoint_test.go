@@ -53,6 +53,27 @@ func TestExecuteMiddlewares(t *testing.T) {
 	}
 }
 
+// test error is propagated from middlewares
+func TestExecuteMiddlewareError(t *testing.T) {
+	expected := "Test Error"
+
+	middlewareErr := func() Middleware {
+		return func(ctx context.Context, req *Request, r *Response) error {
+			return fmt.Errorf("Test Error")
+		}
+	}
+
+	port := &MiddlewareInputPort{
+		middlewares: []Middleware{
+			ResponseTimestamp(RequestTimestamp(middlewareErr())),
+		},
+	}
+
+	if err := port.ExecuteMiddlewares(context.Background(), &Request{}, &Response{}); err.Error() != expected {
+			t.Fatal("Expected to get Test Error but instead got: ", err.Error())
+	}
+}
+
 func TestNewMiddlewarePort(t *testing.T) {
 	port := NewMiddlewarePort()
 	if port == nil {
