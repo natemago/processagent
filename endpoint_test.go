@@ -3,6 +3,7 @@ package processagent
 import (
 	"context"
 	"testing"
+	"fmt"
 )
 
 func TestInputPortAddMiddleware(t *testing.T) {
@@ -50,6 +51,27 @@ func TestExecuteMiddlewares(t *testing.T) {
 
 	if (*executed)[0] != "one" || (*executed)[1] != "two" || (*executed)[2] != "three" {
 		t.Fatal("Middlewares did no execute in the expected order. Actual order is: ", *executed)
+	}
+}
+
+// test error is propagated from middlewares
+func TestExecuteMiddlewareError(t *testing.T) {
+	expected := "Test Error"
+
+	middlewareErr := func() Middleware {
+		return func(ctx context.Context, req *Request, r *Response) error {
+			return fmt.Errorf("Test Error")
+		}
+	}
+
+	port := &MiddlewareInputPort{
+		middlewares: []Middleware{
+			ResponseTimestamp(RequestTimestamp(middlewareErr())),
+		},
+	}
+
+	if err := port.ExecuteMiddlewares(context.Background(), &Request{}, &Response{}); err.Error() != expected {
+			t.Fatal("Expected to get Test Error but instead got: ", err.Error())
 	}
 }
 
